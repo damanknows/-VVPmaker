@@ -15,6 +15,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel
 
+from predictor import forecast_24h
+from optimizer import optimize
+
 app = FastAPI(title = "VPP Orchestrator API",
 version = "1.0.0",
 description = "Virtual Power Plant (VPP) API",
@@ -402,7 +405,33 @@ def export_report(campus_id: str = "MBM_Jodhpur", days: int = 30):
         headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
 
-# ── 8. Health Check ───────────────────────────────────────────────────────────
+# ── 8. 24-Hour ML Forecasting Endpoint ──────────────────────────────────────
+@app.get("/api/forecast")
+def get_forecast(campus_id: str = "MBM_Jodhpur"):
+    weather = _fetch_weather(campus_id)
+    fc = forecast_24h(weather)
+    return {
+        "campus_id": campus_id,
+        "forecasts": fc,
+        "weather_source": "Open-Meteo API + ML GradientBoosting"
+    }
+
+# ── 9. PuLP LP Optimization Endpoint ────────────────────────────────────────
+@app.post("/api/optimize")
+def run_optimize(req: OptimizeRequest):
+    weather = _fetch_weather(req.campus_id)
+    fc = forecast_24h(weather)
+    bench = CAMPUS_BENCHMARKS.get(req.campus_id, CAMPUS_BENCHMARKS["MBM_Jodhpur"])
+    
+    result = optimize(
+        forecasts=fc,
+        init_soc=req.init_soc,
+        campus_id=req.campus_id,
+        bess_cap_kwh=bench["bess_kwh"],
+    )
+    return result
+
+# ── 10. Health Check ──────────────────────────────────────────────────────────
 @app.get("/api/health")
 def health():
     return {
@@ -411,7 +440,7 @@ def health():
         "timestamp":  datetime.now().isoformat(),
     }
 
-# ── 9. Server Launcher ────────────────────────────────────────────────────────
+# ── 11. Server Launcher ───────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
