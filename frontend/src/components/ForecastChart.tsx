@@ -37,17 +37,19 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
   }, [isPlaying, onHourChange]);
 
   return (
-    <div className="scada-panel p-4 space-y-3">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs hover:shadow-md transition-all font-sans space-y-4">
       {/* Chart Title Header & Scrubber Controls */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-3 border-b border-slate-700">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-3.5 border-b border-slate-100">
         <div>
           <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-sky-400" />
-            <h2 className="text-xs font-bold text-white tracking-wider uppercase font-mono">
+            <div className="p-1.5 bg-blue-50 border border-blue-100 rounded-lg text-blue-600">
+              <Clock className="h-4 w-4" />
+            </div>
+            <h2 className="text-xs font-bold text-slate-900 tracking-wider uppercase font-mono">
               24-Hour Predictive Energy Forecast & Peak Tariff Overlay
             </h2>
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1 font-medium">
             Synchronized AI generation curve vs campus demand profile
           </p>
         </div>
@@ -56,10 +58,10 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
         <div className="flex items-center gap-2 font-mono">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className={`flex items-center gap-1.5 px-3 py-1 text-xs font-mono border transition-none cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-sans font-medium rounded-xl transition-all cursor-pointer ${
               isPlaying
-                ? "border-amber-600 bg-amber-950 text-amber-500 font-bold"
-                : "border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
+                ? "bg-amber-500 text-white font-semibold shadow-xs hover:bg-amber-600"
+                : "bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-xs"
             }`}
           >
             {isPlaying ? (
@@ -80,7 +82,7 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
               setIsPlaying(false);
               onHourChange(14);
             }}
-            className="flex items-center gap-1 border border-slate-700 bg-slate-900 px-2 py-1 text-xs font-mono text-slate-400 hover:text-white transition-none cursor-pointer"
+            className="flex items-center gap-1 border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-sans text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded-xl transition-all cursor-pointer"
             title="Reset to 14:00"
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -94,8 +96,8 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
           <AreaChart data={forecast} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="solarGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#d97706" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#d97706" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.0} />
               </linearGradient>
 
               <linearGradient id="windGradient" x1="0" y1="0" x2="0" y2="1">
@@ -104,17 +106,18 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="2 2" stroke="#334155" vertical={true} />
-            <XAxis dataKey="hour" stroke="#94a3b8" fontSize={10} tickLine={true} fontFamily="monospace" />
-            <YAxis stroke="#94a3b8" fontSize={10} tickLine={true} fontFamily="monospace" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={true} />
+            <XAxis dataKey="hour" stroke="#64748b" fontSize={10} tickLine={true} fontFamily="monospace" />
+            <YAxis stroke="#64748b" fontSize={10} tickLine={true} fontFamily="monospace" />
 
             <Tooltip
               contentStyle={{
-                backgroundColor: "#0f172a",
-                borderColor: "#334155",
-                borderRadius: "0px",
+                backgroundColor: "#ffffff",
+                borderColor: "#e2e8f0",
+                borderRadius: "12px",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)",
                 fontSize: "11px",
-                color: "#f8fafc",
+                color: "#0f172a",
                 fontFamily: "monospace",
               }}
               formatter={(value: any, name: any) => [
@@ -132,9 +135,9 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
             <Legend
               verticalAlign="top"
               height={32}
-              iconType="square"
+              iconType="circle"
               formatter={(value) => (
-                <span className="text-xs text-slate-300 font-mono">
+                <span className="text-xs text-slate-700 font-sans font-medium">
                   {value === "solar_kw"
                     ? "Solar (kW)"
                     : value === "wind_kw"
@@ -150,17 +153,17 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
             <ReferenceArea
               x1="11:00"
               x2="15:00"
-              fill="#16a34a"
-              fillOpacity={0.12}
-              stroke="#16a34a"
+              fill="#10b981"
+              fillOpacity={0.1}
+              stroke="#10b981"
               strokeDasharray="2 2"
               label={{
                 value: "Surplus Window",
                 position: "insideTopLeft",
-                fill: "#4ade80",
+                fill: "#059669",
                 fontSize: 10,
                 fontWeight: 600,
-                fontFamily: "monospace",
+                fontFamily: "sans-serif",
               }}
             />
 
@@ -168,17 +171,17 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
             <ReferenceArea
               x1="18:00"
               x2="22:00"
-              fill="#d97706"
-              fillOpacity={0.15}
-              stroke="#d97706"
+              fill="#f59e0b"
+              fillOpacity={0.12}
+              stroke="#f59e0b"
               strokeDasharray="2 2"
               label={{
                 value: "Peak Tariff (₹11.5/kWh)",
                 position: "insideTopRight",
-                fill: "#fbbf24",
+                fill: "#d97706",
                 fontSize: 10,
                 fontWeight: 600,
-                fontFamily: "monospace",
+                fontFamily: "sans-serif",
               }}
             />
 
@@ -186,15 +189,15 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
             <ReferenceArea
               x1={`${currentHour.toString().padStart(2, "0")}:00`}
               x2={`${currentHour.toString().padStart(2, "0")}:00`}
-              stroke="#38bdf8"
+              stroke="#2563eb"
               strokeWidth={2}
             />
 
             <Area
               type="monotone"
               dataKey="solar_kw"
-              stroke="#d97706"
-              strokeWidth={1.5}
+              stroke="#f59e0b"
+              strokeWidth={2}
               fillOpacity={1}
               fill="url(#solarGradient)"
               stackId="1"
@@ -204,7 +207,7 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
               type="monotone"
               dataKey="wind_kw"
               stroke="#0284c7"
-              strokeWidth={1.5}
+              strokeWidth={2}
               fillOpacity={1}
               fill="url(#windGradient)"
               stackId="1"
@@ -213,25 +216,25 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
             <Line
               type="monotone"
               dataKey="demand_kw"
-              stroke="#818cf8"
+              stroke="#2563eb"
               strokeWidth={2.5}
               dot={false}
-              activeDot={{ r: 4, fill: "#818cf8" }}
+              activeDot={{ r: 5, fill: "#2563eb" }}
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Standard Industrial Timeline Scrubber */}
-      <div className="border border-slate-700 bg-slate-900 p-3 space-y-2 font-mono">
+      {/* Modern Light SaaS Timeline Scrubber Container */}
+      <div className="border border-slate-200/80 bg-slate-50 p-3.5 rounded-xl space-y-2 font-sans">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-slate-300 flex items-center gap-1.5">
+          <span className="text-slate-700 font-medium flex items-center gap-1.5">
             <span>Time Scrubber:</span>
-            <span className="text-amber-500 font-mono font-bold">
+            <span className="text-blue-600 font-mono font-bold text-sm">
               {`${currentHour.toString().padStart(2, "0")}:00`}
             </span>
           </span>
-          <span className="text-slate-400 text-[10px]">
+          <span className="text-slate-500 text-xs">
             Step through 24h SCADA telemetry
           </span>
         </div>
@@ -242,11 +245,11 @@ export function ForecastChart({ forecast, currentHour, onHourChange }: ForecastC
           max={23}
           value={currentHour}
           onChange={(e) => onHourChange(parseInt(e.target.value, 10))}
-          className="w-full h-1.5 bg-slate-950 border border-slate-700 appearance-none cursor-pointer accent-amber-500 focus:outline-none"
+          className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-blue-600 focus:outline-none"
         />
 
         {/* Industrial Time Markings */}
-        <div className="flex justify-between text-[10px] text-slate-400 font-mono pt-1">
+        <div className="flex justify-between text-[11px] text-slate-500 font-mono pt-1 font-medium">
           <span>00:00</span>
           <span>06:00</span>
           <span>12:00</span>
