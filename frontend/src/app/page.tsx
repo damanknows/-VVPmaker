@@ -26,20 +26,13 @@ export default function DashboardPage() {
   } = useMicrogridData();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased font-sans selection:bg-amber-500 selection:text-slate-950">
-      {/* Background Gradient Mesh Effects */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/4 h-[400px] w-[500px] rounded-full bg-amber-500/5 blur-[120px]" />
-        <div className="absolute top-1/3 right-1/4 h-[500px] w-[600px] rounded-full bg-emerald-500/5 blur-[140px]" />
-        <div className="absolute bottom-10 left-1/3 h-[450px] w-[500px] rounded-full bg-indigo-500/5 blur-[130px]" />
-      </div>
-
+    <div className="min-h-screen bg-[#070a12] text-slate-100 antialiased font-sans scada-grid-bg selection:bg-slate-700 selection:text-white">
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header */}
         <Header isLiveBackend={isLiveBackend} scenario={currentScenario} />
 
         {/* Main Dashboard Canvas */}
-        <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 space-y-6">
+        <main className="flex-1 mx-auto w-full max-w-7xl px-3 py-4 sm:px-5 space-y-4">
           {/* Top Telemetry & Scenario Selector Bar */}
           <TelemetryBar
             campuses={campuses}
@@ -50,11 +43,11 @@ export default function DashboardPage() {
             telemetry={telemetry}
           />
 
-          {/* Hero Visual Component: Animated Live Energy Routing Graph */}
+          {/* Hero Visual Component: SCADA Single-Line Diagram Energy Flow */}
           <EnergyFlowHero telemetry={telemetry} />
 
           {/* Middle Section: 24h Forecast Chart & Battery Gauge */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
             {/* 24-Hour Forecast Overlay Chart (2 Columns) */}
             <div className="lg:col-span-2">
               <ForecastChart
@@ -75,7 +68,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Bottom Section: Actionable Facility Staff Recommendations & Realtime Event Stream */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Actionable Facility Staff Recommendations (2 Columns) */}
             <div className="lg:col-span-2">
               <RecommendationsPanel
@@ -91,14 +84,15 @@ export default function DashboardPage() {
           </div>
         </main>
 
-        {/* Footer */}
-        <footer className="border-t border-slate-900 bg-slate-950/80 py-4 text-center text-xs text-slate-500">
+        {/* Technical SCADA Footer */}
+        <footer className="border-t border-slate-800 bg-[#090d16] py-3 text-center text-xs font-mono text-slate-400">
           <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>
-              SVH26004 Eco-Hackathon • Rajasthan Technical Education Department
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 bg-emerald-500 rounded-none" />
+              SYSTEM OPERATIONAL • SVH26004 • RAJASTHAN DTE VPP BUS
             </span>
-            <span>
-              Pair C Frontend Dashboard • Next.js 14 App Router
+            <span className="text-slate-500">
+              SCADA CONTROL SYSTEM v2.4 • PAIR C ENGINE
             </span>
           </div>
         </footer>
