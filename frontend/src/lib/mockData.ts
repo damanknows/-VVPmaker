@@ -53,7 +53,7 @@ export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
         const solarFactor = Math.sin(((h - 6) / 12) * Math.PI);
         solar_kw = Math.round(210 * Math.pow(solarFactor, 1.2));
       }
-      wind_kw = Math.round(20 + Math.random() * 15);
+      wind_kw = Math.round(20 + (h % 5) * 3);
     } else if (scenario === "CLOUDY_AFTERNOON") {
       // Dips in solar due to cloud cover, wind moderate
       if (h >= 6 && h <= 18) {
@@ -61,7 +61,7 @@ export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
         const cloudDip = (h >= 12 && h <= 15) ? 0.35 : 0.8;
         solar_kw = Math.round(140 * solarFactor * cloudDip);
       }
-      wind_kw = Math.round(35 + Math.random() * 20);
+      wind_kw = Math.round(35 + (h % 7) * 3);
     } else if (scenario === "WINDY_NIGHT") {
       // Low solar, high nighttime wind generation (up to 140 kW)
       if (h >= 7 && h <= 17) {
