@@ -67,14 +67,14 @@ export function LiveEventStream() {
   }, []);
 
   return (
-    <div className="scada-panel rounded-none p-4 font-mono space-y-3">
-      <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
+    <div className="scada-panel p-4 font-mono space-y-3">
+      <div className="flex items-center justify-between pb-2 border-b border-slate-700">
         <div className="flex items-center gap-2">
           <Terminal className="h-4 w-4 text-emerald-500" />
           <h3 className="font-bold text-white text-xs uppercase tracking-wider">VPP Event & Control Stream</h3>
         </div>
         <div className="flex items-center gap-1 text-[9px] font-mono text-emerald-500">
-          <span className="h-1.5 w-1.5 bg-emerald-500 rounded-none" />
+          <span className="h-1.5 w-1.5 bg-emerald-500" />
           <span>REALTIME BUS</span>
         </div>
       </div>
@@ -83,24 +83,24 @@ export function LiveEventStream() {
         {events.map((ev) => (
           <div
             key={ev.id}
-            className="flex items-center justify-between rounded-none border border-zinc-800 bg-zinc-950 px-2.5 py-1.5 text-xs font-mono"
+            className="flex items-center justify-between border border-slate-700 bg-slate-950 px-2.5 py-1.5 text-xs font-mono"
           >
             <div className="flex items-center gap-2">
-              <span className="text-zinc-500 text-[10px]">{ev.time}</span>
+              <span className="text-slate-400 text-[10px]">{ev.time}</span>
               <span
                 className={`text-[9px] font-bold px-1 py-0.2 border ${
                   ev.category === "VPP"
-                    ? "border-indigo-500/50 bg-indigo-950 text-indigo-300"
+                    ? "border-slate-600 bg-slate-800 text-slate-200"
                     : ev.category === "SOLAR"
-                    ? "border-amber-500/50 bg-amber-950 text-amber-500"
+                    ? "border-amber-600/50 bg-amber-950 text-amber-500"
                     : ev.category === "BESS"
-                    ? "border-emerald-500/50 bg-emerald-950 text-emerald-400"
-                    : "border-orange-500/50 bg-orange-950 text-orange-400"
+                    ? "border-emerald-600/50 bg-emerald-950 text-emerald-400"
+                    : "border-orange-600/50 bg-orange-950 text-orange-400"
                 }`}
               >
                 {ev.category}
               </span>
-              <span className="text-zinc-300 text-[11px] font-mono">{ev.message}</span>
+              <span className="text-slate-300 text-[11px] font-mono">{ev.message}</span>
             </div>
 
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />

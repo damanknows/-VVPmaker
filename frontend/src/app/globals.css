@@ -1,31 +1,11 @@
 @import "tailwindcss";
 
 @layer utilities {
-  /* Modern Control Room Zinc Grid Pattern */
-  .scada-grid-bg {
-    background-image: radial-gradient(#27272a 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  /* Modern Control Room Panel Border */
+  /* Solid Enterprise Panel Background & Border */
   .scada-panel {
-    background-color: #18181b;
-    border: 1px solid #27272a;
-  }
-
-  /* SCADA Corner Crosshairs */
-  .scada-corner-tl {
-    position: relative;
-  }
-  .scada-corner-tl::before {
-    content: "+";
-    position: absolute;
-    top: 2px;
-    left: 4px;
-    font-family: monospace;
-    font-size: 10px;
-    color: #71717a;
-    pointer-events: none;
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
   }
 
   @keyframes spinSlow {
@@ -43,12 +23,12 @@
 }
 
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
+  --background: #0f172a;
+  --foreground: #f8fafc;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
