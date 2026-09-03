@@ -35,9 +35,12 @@ export const RAJASTHAN_CAMPUSES: Campus[] = [
   },
 ];
 
-// Helper to generate 24h forecast curve based on scenario
-export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
+// Helper to generate 24h forecast curve based on scenario and campus capacity
+export function generate24hForecast(scenario: ScenarioPreset, campus?: Campus): ForecastItem[] {
   const items: ForecastItem[] = [];
+
+  const scaleSolar = campus ? campus.solar_installed_kw / 220 : 1;
+  const scaleDemand = campus ? campus.capacity_kw / 350 : 1;
 
   for (let h = 0; h < 24; h++) {
     const hourStr = `${h.toString().padStart(2, "0")}:00`;
@@ -45,13 +48,13 @@ export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
 
     let solar_kw = 0;
     let wind_kw = 0;
-    let demand_kw = 120 + Math.sin((h - 8) / 3) * 35; // base diurnal campus load curve (100 - 165 kW)
+    let demand_kw = (120 + Math.sin((h - 8) / 3) * 35) * scaleDemand; // diurnal campus load curve
 
     if (scenario === "SUNNY_PEAK") {
-      // High solar bell curve peaking at 13:00 (up to 210 kW)
+      // High solar bell curve peaking at 13:00
       if (h >= 6 && h <= 18) {
         const solarFactor = Math.sin(((h - 6) / 12) * Math.PI);
-        solar_kw = Math.round(210 * Math.pow(solarFactor, 1.2));
+        solar_kw = Math.round(210 * Math.pow(solarFactor, 1.2) * scaleSolar);
       }
       wind_kw = Math.round(20 + (h % 5) * 3);
     } else if (scenario === "CLOUDY_AFTERNOON") {
@@ -59,16 +62,16 @@ export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
       if (h >= 6 && h <= 18) {
         const solarFactor = Math.sin(((h - 6) / 12) * Math.PI);
         const cloudDip = (h >= 12 && h <= 15) ? 0.35 : 0.8;
-        solar_kw = Math.round(140 * solarFactor * cloudDip);
+        solar_kw = Math.round(140 * solarFactor * cloudDip * scaleSolar);
       }
       wind_kw = Math.round(35 + (h % 7) * 3);
     } else if (scenario === "WINDY_NIGHT") {
-      // Low solar, high nighttime wind generation (up to 140 kW)
+      // Low solar, high nighttime wind generation
       if (h >= 7 && h <= 17) {
-        solar_kw = Math.round(60 * Math.sin(((h - 7) / 10) * Math.PI));
+        solar_kw = Math.round(60 * Math.sin(((h - 7) / 10) * Math.PI) * scaleSolar);
       }
       wind_kw = Math.round(110 + Math.sin(h / 3) * 25);
-      demand_kw = Math.max(90, demand_kw * 0.85); // lower night load
+      demand_kw = Math.max(90 * scaleDemand, demand_kw * 0.85); // lower night load
     }
 
     const totalGreen = solar_kw + wind_kw;
@@ -88,8 +91,8 @@ export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
 
     items.push({
       hour: hourStr,
-      solar_kw: Math.max(0, solar_kw),
-      wind_kw: Math.max(0, wind_kw),
+      solar_kw: Math.max(0, Math.round(solar_kw)),
+      wind_kw: Math.max(0, Math.round(wind_kw)),
       demand_kw: Math.round(demand_kw),
       battery_soc: Math.round(battery_soc),
       grid_import_kw: Math.round(grid_import_kw),
@@ -101,12 +104,13 @@ export function generate24hForecast(scenario: ScenarioPreset): ForecastItem[] {
   return items;
 }
 
-// Generate instantaneous telemetry based on scenario and hour
+// Generate instantaneous telemetry based on scenario, hour, and campus
 export function getTelemetryForHour(
   scenario: ScenarioPreset,
-  hour: number = 14
+  hour: number = 14,
+  campus?: Campus
 ): CurrentTelemetry {
-  const forecast = generate24hForecast(scenario);
+  const forecast = generate24hForecast(scenario, campus);
   const current = forecast[Math.min(23, Math.max(0, hour))];
 
   const totalGen = current.solar_kw + current.wind_kw;
@@ -127,9 +131,10 @@ export function getTelemetryForHour(
     grid_import_kw = Math.max(0, Math.round(deficit - Math.abs(battery_power_kw)));
   }
 
-  // Base cumulative daily savings metrics
-  const rupees_saved = Math.round(3800 + hour * 240 + (scenario === "SUNNY_PEAK" ? 850 : 200));
-  const co2_saved_kg = Number((280 + hour * 18.5 + (scenario === "WINDY_NIGHT" ? 45 : 15)).toFixed(1));
+  // Base cumulative daily savings metrics scaled by campus
+  const scale = campus ? campus.capacity_kw / 350 : 1;
+  const rupees_saved = Math.round((3800 + hour * 240 + (scenario === "SUNNY_PEAK" ? 850 : 200)) * scale);
+  const co2_saved_kg = Number(((280 + hour * 18.5 + (scenario === "WINDY_NIGHT" ? 45 : 15)) * scale).toFixed(1));
 
   const now = new Date();
   now.setHours(hour, 30, 0, 0);
