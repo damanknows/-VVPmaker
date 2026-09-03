@@ -67,43 +67,45 @@ export function LiveEventStream() {
   }, []);
 
   return (
-    <div className="scada-panel p-4 font-mono space-y-3">
-      <div className="flex items-center justify-between pb-2 border-b border-slate-700">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs hover:shadow-md transition-all font-sans space-y-4">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
         <div className="flex items-center gap-2">
-          <Terminal className="h-4 w-4 text-emerald-500" />
-          <h3 className="font-bold text-white text-xs uppercase tracking-wider">VPP Event & Control Stream</h3>
+          <div className="p-1.5 bg-emerald-50 border border-emerald-100 rounded-lg text-emerald-600">
+            <Terminal className="h-4 w-4" />
+          </div>
+          <h3 className="font-bold text-slate-900 text-xs uppercase tracking-wider font-mono">VPP Event & Control Stream</h3>
         </div>
-        <div className="flex items-center gap-1 text-[9px] font-mono text-emerald-500">
-          <span className="h-1.5 w-1.5 bg-emerald-500" />
+        <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-600 bg-emerald-50 px-2.5 py-0.5 border border-emerald-200 rounded-full">
+          <span className="h-2 w-2 bg-emerald-500 rounded-full animate-pulse" />
           <span>REALTIME BUS</span>
         </div>
       </div>
 
-      <div className="space-y-1.5 max-h-[190px] overflow-y-auto pr-1">
+      <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1 font-mono">
         {events.map((ev) => (
           <div
             key={ev.id}
-            className="flex items-center justify-between border border-slate-700 bg-slate-950 px-2.5 py-1.5 text-xs font-mono"
+            className="flex items-center justify-between border border-slate-200/80 bg-slate-50 px-3 py-2 rounded-xl text-xs"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <span className="text-slate-400 text-[10px]">{ev.time}</span>
               <span
-                className={`text-[9px] font-bold px-1 py-0.2 border ${
+                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                   ev.category === "VPP"
-                    ? "border-slate-600 bg-slate-800 text-slate-200"
+                    ? "border-blue-200 bg-blue-50 text-blue-700"
                     : ev.category === "SOLAR"
-                    ? "border-amber-600/50 bg-amber-950 text-amber-500"
+                    ? "border-amber-200 bg-amber-50 text-amber-700"
                     : ev.category === "BESS"
-                    ? "border-emerald-600/50 bg-emerald-950 text-emerald-400"
-                    : "border-orange-600/50 bg-orange-950 text-orange-400"
+                    ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                    : "border-orange-200 bg-orange-50 text-orange-700"
                 }`}
               >
                 {ev.category}
               </span>
-              <span className="text-slate-300 text-[11px] font-mono">{ev.message}</span>
+              <span className="text-slate-700 text-[11px] font-mono">{ev.message}</span>
             </div>
 
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+            <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
           </div>
         ))}
       </div>

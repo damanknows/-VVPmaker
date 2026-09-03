@@ -29,7 +29,7 @@ export default function DashboardPage() {
   } = useMicrogridData();
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-slate-100 antialiased font-sans selection:bg-slate-800 selection:text-white">
+    <div className="min-h-screen saas-dot-grid text-slate-900 antialiased font-sans selection:bg-blue-100 selection:text-blue-900">
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header with Dynamic Campus Breadcrumb & Sub-Nav Tab Navigation */}
         <Header
@@ -41,7 +41,7 @@ export default function DashboardPage() {
         />
 
         {/* Main Dashboard Canvas */}
-        <main className="flex-1 mx-auto w-full max-w-7xl px-3 py-4 sm:px-5 space-y-4">
+        <main className="flex-1 mx-auto w-full max-w-7xl px-3 py-5 sm:px-6 space-y-5">
           {/* Top Telemetry & Scenario Selector Bar */}
           <TelemetryBar
             campuses={campuses}
@@ -55,20 +55,20 @@ export default function DashboardPage() {
           {/* Hero Visual Component: SCADA Single-Line Diagram Energy Flow */}
           <div
             id="sld-section"
-            className={`transition-all duration-300 ${
-              activeTab === "sld" ? "ring-2 ring-amber-500/50" : ""
+            className={`transition-all duration-300 rounded-2xl ${
+              activeTab === "sld" ? "ring-2 ring-blue-500/60" : ""
             }`}
           >
             <EnergyFlowHero telemetry={telemetry} />
           </div>
 
           {/* Middle Section: 24h Forecast Chart & Battery Gauge */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-stretch">
             {/* 24-Hour Forecast Overlay Chart (2 Columns) */}
             <div
               id="forecast-section"
-              className={`lg:col-span-2 transition-all duration-300 ${
-                activeTab === "forecast" ? "ring-2 ring-amber-500/50" : ""
+              className={`lg:col-span-2 transition-all duration-300 rounded-2xl ${
+                activeTab === "forecast" ? "ring-2 ring-blue-500/60" : ""
               }`}
             >
               <ForecastChart
@@ -81,8 +81,8 @@ export default function DashboardPage() {
             {/* Battery BESS SoC Radial Meter (1 Column) */}
             <div
               id="bess-section"
-              className={`lg:col-span-1 transition-all duration-300 ${
-                activeTab === "bess" ? "ring-2 ring-amber-500/50" : ""
+              className={`lg:col-span-1 transition-all duration-300 rounded-2xl ${
+                activeTab === "bess" ? "ring-2 ring-blue-500/60" : ""
               }`}
             >
               <BatteryGauge
@@ -94,12 +94,12 @@ export default function DashboardPage() {
           </div>
 
           {/* Bottom Section: Actionable Facility Staff Recommendations & Realtime Event Stream */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Actionable Facility Staff Recommendations (2 Columns) */}
             <div
               id="tariff-section"
-              className={`lg:col-span-2 transition-all duration-300 ${
-                activeTab === "tariff" ? "ring-2 ring-amber-500/50" : ""
+              className={`lg:col-span-2 transition-all duration-300 rounded-2xl ${
+                activeTab === "tariff" ? "ring-2 ring-blue-500/60" : ""
               }`}
             >
               <RecommendationsPanel
@@ -116,13 +116,13 @@ export default function DashboardPage() {
         </main>
 
         {/* Technical Control Room Footer */}
-        <footer className="border-t border-slate-800 bg-slate-900 py-3 text-center text-xs font-mono text-slate-400">
-          <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <footer className="border-t border-slate-200/80 bg-white py-4 text-center text-xs font-mono text-slate-500 mt-6">
+          <div className="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
             <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 bg-emerald-500 rounded-none" />
+              <span className="h-2 w-2 bg-emerald-500 rounded-full animate-pulse" />
               SYSTEM OPERATIONAL • SVH26004 • RAJASTHAN DTE VPP BUS
             </span>
-            <span className="text-slate-500">
+            <span className="text-slate-400">
               SCADA CONTROL SYSTEM v2.4 • PAIR C ENGINE
             </span>
           </div>
