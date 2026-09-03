@@ -1,7 +1,7 @@
 "use client";
 
 import { Campus } from "@/types/telemetry";
-import { ChevronRight, Cpu, UserCheck, Zap } from "lucide-react";
+import { ChevronRight, Cpu, UserCheck } from "lucide-react";
 import { useState } from "react";
 import { ArchitectureModal } from "./ArchitectureModal";
 
@@ -39,10 +39,16 @@ export function Header({
       <header className="sticky top-0 z-40 w-full border-b border-slate-700 bg-slate-900 shadow-sm">
         {/* Main Portal Header Bar */}
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
-          {/* Left Govt of Rajasthan / DTE Title */}
+          {/* Left Govt of Rajasthan / DTE Title with Official State Emblem Logo */}
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center bg-slate-800 border border-slate-700 font-mono text-xs font-bold text-amber-500">
-              <Zap className="h-4 w-4 text-amber-500" />
+            {/* Official Government of Rajasthan State Emblem Logo */}
+            <div className="flex h-10 w-10 items-center justify-center bg-white p-0.5 border border-slate-600 shadow-sm shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/rajasthan_logo.png"
+                alt="Government of Rajasthan Emblem"
+                className="h-full w-full object-contain"
+              />
             </div>
 
             <div>
