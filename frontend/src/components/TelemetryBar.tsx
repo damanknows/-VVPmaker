@@ -33,15 +33,15 @@ export function TelemetryBar({
       <div className="scada-panel rounded-none p-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Campus Selector */}
         <div className="flex items-center gap-2 font-mono">
-          <Building2 className="h-4 w-4 text-slate-400" />
-          <span className="text-xs text-slate-400 font-medium hidden md:inline">CAMPUS:</span>
+          <Building2 className="h-4 w-4 text-zinc-400" />
+          <span className="text-xs text-zinc-400 font-medium hidden md:inline">CAMPUS:</span>
           <select
             value={selectedCampus.id}
             onChange={(e) => {
               const matched = campuses.find((c) => c.id === e.target.value);
               if (matched) onSelectCampus(matched);
             }}
-            className="rounded-none border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-mono text-white focus:border-slate-500 focus:outline-none transition-none cursor-pointer"
+            className="rounded-none border border-zinc-700 bg-zinc-950 px-2.5 py-1 text-xs font-mono text-white focus:border-zinc-500 focus:outline-none transition-none cursor-pointer"
           >
             {campuses.map((c) => (
               <option key={c.id} value={c.id}>
@@ -53,20 +53,20 @@ export function TelemetryBar({
 
         {/* SCADA Scenario Switcher Buttons */}
         <div className="flex items-center gap-1.5 font-mono overflow-x-auto pb-1 sm:pb-0">
-          <span className="text-xs text-slate-400 font-medium mr-1 hidden lg:inline">PRESETS:</span>
+          <span className="text-xs text-zinc-400 font-medium mr-1 hidden lg:inline">PRESETS:</span>
 
           {/* Sunny Peak Button */}
           <button
             onClick={() => onSelectScenario("SUNNY_PEAK")}
             className={`flex items-center gap-1.5 rounded-none px-2.5 py-1 text-xs font-mono border transition-none ${
               scenario === "SUNNY_PEAK"
-                ? "border-amber-500 bg-amber-950/60 text-amber-300 font-bold"
-                : "border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                ? "border-amber-500 bg-amber-950/60 text-amber-500 font-bold"
+                : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
             }`}
           >
             <Sun className="h-3.5 w-3.5" />
             <span>Sunny Peak</span>
-            {scenario === "SUNNY_PEAK" && <span className="text-[10px] text-amber-400">[ACTIVE]</span>}
+            {scenario === "SUNNY_PEAK" && <span className="text-[10px] text-amber-500">[ACTIVE]</span>}
           </button>
 
           {/* Cloudy Afternoon Button */}
@@ -74,13 +74,13 @@ export function TelemetryBar({
             onClick={() => onSelectScenario("CLOUDY_AFTERNOON")}
             className={`flex items-center gap-1.5 rounded-none px-2.5 py-1 text-xs font-mono border transition-none ${
               scenario === "CLOUDY_AFTERNOON"
-                ? "border-cyan-500 bg-cyan-950/60 text-cyan-300 font-bold"
-                : "border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                ? "border-teal-500 bg-teal-950/60 text-teal-400 font-bold"
+                : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
             }`}
           >
             <CloudRain className="h-3.5 w-3.5" />
             <span>Cloudy Dip</span>
-            {scenario === "CLOUDY_AFTERNOON" && <span className="text-[10px] text-cyan-400">[ACTIVE]</span>}
+            {scenario === "CLOUDY_AFTERNOON" && <span className="text-[10px] text-teal-400">[ACTIVE]</span>}
           </button>
 
           {/* Windy Night Button */}
@@ -88,8 +88,8 @@ export function TelemetryBar({
             onClick={() => onSelectScenario("WINDY_NIGHT")}
             className={`flex items-center gap-1.5 rounded-none px-2.5 py-1 text-xs font-mono border transition-none ${
               scenario === "WINDY_NIGHT"
-                ? "border-indigo-500 bg-indigo-950/60 text-indigo-300 font-bold"
-                : "border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                ? "border-indigo-500 bg-indigo-950/60 text-indigo-400 font-bold"
+                : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
             }`}
           >
             <CloudSun className="h-3.5 w-3.5" />
@@ -99,46 +99,46 @@ export function TelemetryBar({
         </div>
       </div>
 
-      {/* SCADA Blueprint KPI Cards Strip */}
+      {/* Control Room Blueprint KPI Cards Strip */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 font-mono">
         {/* Metric 1: Campus Demand */}
         <div className="scada-panel rounded-none p-3 relative">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-xs uppercase tracking-wider font-semibold">Campus Load</span>
-            <Zap className="h-3.5 w-3.5 text-indigo-400" />
+          <div className="flex items-center justify-between text-zinc-400 mb-1">
+            <span className="text-xs uppercase tracking-wider font-semibold text-zinc-400">Campus Load</span>
+            <Zap className="h-3.5 w-3.5 text-indigo-500" />
           </div>
           <div className="flex items-baseline gap-1">
             <span className="text-2xl font-bold font-mono text-white tracking-tight">{telemetry.demand_kw}</span>
-            <span className="text-xs text-slate-400">kW</span>
+            <span className="text-xs text-zinc-400">kW</span>
           </div>
-          <p className="mt-1 text-[10px] text-slate-400">
+          <p className="mt-1 text-[10px] text-zinc-500">
             Current demand across facility blocks
           </p>
         </div>
 
         {/* Metric 2: Green Energy Share */}
         <div className="scada-panel rounded-none p-3 relative">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-xs uppercase tracking-wider font-semibold">Green Share</span>
-            <Leaf className="h-3.5 w-3.5 text-emerald-400" />
+          <div className="flex items-center justify-between text-zinc-400 mb-1">
+            <span className="text-xs uppercase tracking-wider font-semibold text-zinc-400">Green Share</span>
+            <Leaf className="h-3.5 w-3.5 text-emerald-500" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold font-mono text-emerald-400">{greenShare}%</span>
+            <span className="text-2xl font-bold font-mono text-emerald-500">{greenShare}%</span>
           </div>
-          <p className="mt-1 text-[10px] text-slate-400">
+          <p className="mt-1 text-[10px] text-zinc-500">
             {totalGreen} kW clean generation
           </p>
         </div>
 
         {/* Metric 3: Battery SoC */}
         <div className="scada-panel rounded-none p-3 relative">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-xs uppercase tracking-wider font-semibold">Battery SoC</span>
-            <BatteryCharging className="h-3.5 w-3.5 text-emerald-400" />
+          <div className="flex items-center justify-between text-zinc-400 mb-1">
+            <span className="text-xs uppercase tracking-wider font-semibold text-zinc-400">Battery SoC</span>
+            <BatteryCharging className="h-3.5 w-3.5 text-emerald-500" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold font-mono text-white">{telemetry.battery_soc}%</span>
-            <span className="text-[10px] font-mono text-emerald-400">
+            <span className="text-[10px] font-mono text-emerald-500">
               {telemetry.battery_power_kw > 0
                 ? `+${telemetry.battery_power_kw} kW`
                 : telemetry.battery_power_kw < 0
@@ -146,38 +146,38 @@ export function TelemetryBar({
                 : "Idle"}
             </span>
           </div>
-          <p className="mt-1 text-[10px] text-slate-400">
+          <p className="mt-1 text-[10px] text-zinc-500">
             {telemetry.battery_power_kw > 0 ? "Charging from Solar" : telemetry.battery_power_kw < 0 ? "Discharging to Load" : "Standby Mode"}
           </p>
         </div>
 
         {/* Metric 4: Rupee Savings Today */}
         <div className="scada-panel rounded-none p-3 relative">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-xs uppercase tracking-wider font-semibold">Savings Today</span>
-            <IndianRupee className="h-3.5 w-3.5 text-amber-400" />
+          <div className="flex items-center justify-between text-zinc-400 mb-1">
+            <span className="text-xs uppercase tracking-wider font-semibold text-zinc-400">Savings Today</span>
+            <IndianRupee className="h-3.5 w-3.5 text-amber-500" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold font-mono text-amber-400">
+            <span className="text-2xl font-bold font-mono text-amber-500">
               ₹{telemetry.rupees_saved.toLocaleString("en-IN")}
             </span>
           </div>
-          <p className="mt-1 text-[10px] text-slate-400">
+          <p className="mt-1 text-[10px] text-zinc-500">
             Avoided peak tariff charges
           </p>
         </div>
 
         {/* Metric 5: CO2 Offset */}
         <div className="col-span-2 sm:col-span-1 scada-panel rounded-none p-3 relative">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-xs uppercase tracking-wider font-semibold">CO₂ Avoided</span>
-            <Leaf className="h-3.5 w-3.5 text-cyan-400" />
+          <div className="flex items-center justify-between text-zinc-400 mb-1">
+            <span className="text-xs uppercase tracking-wider font-semibold text-zinc-400">CO₂ Avoided</span>
+            <Leaf className="h-3.5 w-3.5 text-teal-500" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold font-mono text-cyan-400">{telemetry.co2_saved_kg}</span>
-            <span className="text-xs text-slate-400">kg</span>
+            <span className="text-2xl font-bold font-mono text-teal-400">{telemetry.co2_saved_kg}</span>
+            <span className="text-xs text-zinc-400">kg</span>
           </div>
-          <p className="mt-1 text-[10px] text-slate-400">
+          <p className="mt-1 text-[10px] text-zinc-500">
             Clean energy offset equivalent
           </p>
         </div>

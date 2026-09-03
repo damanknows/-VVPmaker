@@ -26,7 +26,7 @@ export default function DashboardPage() {
   } = useMicrogridData();
 
   return (
-    <div className="min-h-screen bg-[#070a12] text-slate-100 antialiased font-sans scada-grid-bg selection:bg-slate-700 selection:text-white">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 antialiased font-sans scada-grid-bg selection:bg-zinc-800 selection:text-white">
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header */}
         <Header isLiveBackend={isLiveBackend} scenario={currentScenario} />
@@ -84,14 +84,14 @@ export default function DashboardPage() {
           </div>
         </main>
 
-        {/* Technical SCADA Footer */}
-        <footer className="border-t border-slate-800 bg-[#090d16] py-3 text-center text-xs font-mono text-slate-400">
+        {/* Technical Control Room Footer */}
+        <footer className="border-t border-zinc-800 bg-[#18181b] py-3 text-center text-xs font-mono text-zinc-400">
           <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
             <span className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 bg-emerald-500 rounded-none" />
               SYSTEM OPERATIONAL • SVH26004 • RAJASTHAN DTE VPP BUS
             </span>
-            <span className="text-slate-500">
+            <span className="text-zinc-500">
               SCADA CONTROL SYSTEM v2.4 • PAIR C ENGINE
             </span>
           </div>

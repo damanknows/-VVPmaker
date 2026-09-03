@@ -1,17 +1,16 @@
 @import "tailwindcss";
 
 @layer utilities {
-  /* Industrial SCADA Grid Pattern */
+  /* Modern Control Room Zinc Grid Pattern */
   .scada-grid-bg {
-    background-image: radial-gradient(rgba(51, 65, 85, 0.4) 1px, transparent 1px);
+    background-image: radial-gradient(#27272a 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
-  /* Sharp Blueprint Panel Border */
+  /* Modern Control Room Panel Border */
   .scada-panel {
-    background-color: #0b0f19;
-    border: 1px solid #334155;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    background-color: #18181b;
+    border: 1px solid #27272a;
   }
 
   /* SCADA Corner Crosshairs */
@@ -25,17 +24,7 @@
     left: 4px;
     font-family: monospace;
     font-size: 10px;
-    color: #64748b;
-    pointer-events: none;
-  }
-  .scada-corner-tr::after {
-    content: "+";
-    position: absolute;
-    top: 2px;
-    right: 4px;
-    font-family: monospace;
-    font-size: 10px;
-    color: #64748b;
+    color: #71717a;
     pointer-events: none;
   }
 
@@ -54,8 +43,8 @@
 }
 
 :root {
-  --background: #070a12;
-  --foreground: #f8fafc;
+  --background: #09090b;
+  --foreground: #fafafa;
 }
 
 body {

@@ -18,7 +18,7 @@ export function RecommendationsPanel({ recommendations, onApply }: Recommendatio
       particleCount: 35,
       spread: 50,
       origin: { y: 0.8 },
-      colors: ["#10b981", "#f59e0b", "#6366f1"],
+      colors: ["#22c55e", "#eab308", "#6366f1"],
     });
   };
 
@@ -29,7 +29,7 @@ export function RecommendationsPanel({ recommendations, onApply }: Recommendatio
       case "BATTERY_DISCHARGE":
         return { label: "Grid Avoidance", bg: "bg-emerald-950 text-emerald-300 border-emerald-500/50" };
       case "BATTERY_CHARGE":
-        return { label: "Solar Pre-Charge", bg: "bg-cyan-950 text-cyan-300 border-cyan-500/50" };
+        return { label: "Solar Pre-Charge", bg: "bg-teal-950 text-teal-300 border-teal-500/50" };
       case "CURTAILMENT":
         return { label: "Demand Staggering", bg: "bg-amber-950 text-amber-300 border-amber-500/50" };
     }
@@ -38,14 +38,14 @@ export function RecommendationsPanel({ recommendations, onApply }: Recommendatio
   return (
     <div className="scada-panel rounded-none p-4 font-mono space-y-3">
       {/* Title Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-amber-400" />
+          <Zap className="h-4 w-4 text-amber-500" />
           <h2 className="text-sm font-bold text-white tracking-wider uppercase font-mono">
             Actionable Facility Staff Recommendations
           </h2>
         </div>
-        <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-900 border border-slate-800 text-slate-400">
+        <span className="text-[10px] font-mono px-2 py-0.5 bg-zinc-950 border border-zinc-800 text-zinc-400">
           AI Optimization Engine
         </span>
       </div>
@@ -59,10 +59,10 @@ export function RecommendationsPanel({ recommendations, onApply }: Recommendatio
           return (
             <div
               key={rec.id}
-              className={`rounded-none border p-3 bg-slate-900 transition-none ${
+              className={`rounded-none border p-3 bg-zinc-950 transition-none ${
                 isApplied
                   ? "border-emerald-500/60 bg-emerald-950/20"
-                  : "border-slate-800"
+                  : "border-zinc-800"
               }`}
             >
               {/* Header Tags */}
@@ -75,7 +75,7 @@ export function RecommendationsPanel({ recommendations, onApply }: Recommendatio
                   className={`text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.5 border ${
                     rec.priority === "HIGH"
                       ? "border-red-500/50 bg-red-950/60 text-red-400"
-                      : "border-slate-700 bg-slate-800 text-slate-400"
+                      : "border-zinc-700 bg-zinc-900 text-zinc-400"
                   }`}
                 >
                   {rec.priority} Priority
@@ -84,15 +84,15 @@ export function RecommendationsPanel({ recommendations, onApply }: Recommendatio
 
               {/* Title & Action Detail */}
               <h3 className="font-bold text-white text-xs mb-1 font-mono">{rec.title}</h3>
-              <p className="text-[11px] text-slate-300 mb-2.5 font-sans leading-relaxed">{rec.action}</p>
+              <p className="text-[11px] text-zinc-300 mb-2.5 font-sans leading-relaxed">{rec.action}</p>
 
               {/* Impact Indicators Strip */}
-              <div className="grid grid-cols-2 gap-2 my-2 bg-slate-950 p-2 border border-slate-800 text-xs font-mono">
-                <div className="flex items-center gap-1 text-amber-400 font-bold">
+              <div className="grid grid-cols-2 gap-2 my-2 bg-zinc-900 p-2 border border-zinc-800 text-xs font-mono">
+                <div className="flex items-center gap-1 text-amber-500 font-bold">
                   <IndianRupee className="h-3 w-3" />
                   <span>{rec.financial_impact}</span>
                 </div>
-                <div className="flex items-center gap-1 text-emerald-400 font-bold">
+                <div className="flex items-center gap-1 text-emerald-500 font-bold">
                   <Leaf className="h-3 w-3" />
                   <span>{rec.carbon_impact}</span>
                 </div>
