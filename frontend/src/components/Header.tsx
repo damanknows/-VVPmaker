@@ -1,5 +1,6 @@
 "use client";
 
+import { Campus } from "@/types/telemetry";
 import { ChevronRight, Cpu, ShieldCheck, UserCheck, Zap } from "lucide-react";
 import { useState } from "react";
 import { ArchitectureModal } from "./ArchitectureModal";
@@ -7,11 +8,16 @@ import { ArchitectureModal } from "./ArchitectureModal";
 interface HeaderProps {
   isLiveBackend: boolean;
   scenario: string;
+  selectedCampus?: Campus;
 }
 
-export function Header({ isLiveBackend, scenario }: HeaderProps) {
+export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps) {
   const [isArchOpen, setIsArchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("sld");
+
+  const campusName = selectedCampus
+    ? selectedCampus.name.split(" - ")[0]
+    : "GEC Bikaner";
 
   return (
     <>
@@ -39,11 +45,11 @@ export function Header({ isLiveBackend, scenario }: HeaderProps) {
             </div>
           </div>
 
-          {/* Center Breadcrumb Navigation (Enterprise SCADA) */}
+          {/* Center Dynamic Breadcrumb Navigation (Enterprise SCADA) */}
           <div className="hidden lg:flex items-center gap-1.5 text-xs text-slate-400 font-mono bg-slate-950 px-3 py-1 border border-slate-800">
             <span>Campuses</span>
             <ChevronRight className="h-3 w-3 text-slate-600" />
-            <span className="text-slate-200">GEC Bikaner</span>
+            <span className="text-slate-200 font-semibold">{campusName}</span>
             <ChevronRight className="h-3 w-3 text-slate-600" />
             <span className="text-amber-500 font-semibold">Substation-01</span>
           </div>

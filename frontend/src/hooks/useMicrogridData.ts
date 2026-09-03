@@ -10,10 +10,10 @@ export function useMicrogridData() {
   const [selectedCampus, setSelectedCampus] = useState<Campus>(RAJASTHAN_CAMPUSES[0]);
   
   const [telemetry, setTelemetry] = useState<CurrentTelemetry>(() =>
-    getTelemetryForHour("SUNNY_PEAK", 14)
+    getTelemetryForHour("SUNNY_PEAK", 14, RAJASTHAN_CAMPUSES[0])
   );
   const [forecast, setForecast] = useState<ForecastItem[]>(() =>
-    generate24hForecast("SUNNY_PEAK")
+    generate24hForecast("SUNNY_PEAK", RAJASTHAN_CAMPUSES[0])
   );
   const [recommendations, setRecommendations] = useState<Recommendation[]>(INITIAL_RECOMMENDATIONS);
   
@@ -23,15 +23,15 @@ export function useMicrogridData() {
 
   // Main data fetch & state sync function
   const refreshData = useCallback(
-    async (scenario: ScenarioPreset, hour: number) => {
+    async (scenario: ScenarioPreset, hour: number, campus: Campus) => {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
       if (backendUrl) {
         setLoading(true);
         try {
           const [telRes, fcRes, recRes] = await Promise.all([
-            fetch(`${backendUrl}/api/telemetry/current?scenario=${scenario}&hour=${hour}`),
-            fetch(`${backendUrl}/api/forecast/24h?scenario=${scenario}`),
+            fetch(`${backendUrl}/api/telemetry/current?scenario=${scenario}&hour=${hour}&campus=${campus.id}`),
+            fetch(`${backendUrl}/api/forecast/24h?scenario=${scenario}&campus=${campus.id}`),
             fetch(`${backendUrl}/api/recommendations`),
           ]);
 
@@ -55,18 +55,18 @@ export function useMicrogridData() {
         setLoading(false);
       }
 
-      // Fallback: Local client-side mock data computation
-      setTelemetry(getTelemetryForHour(scenario, hour));
-      setForecast(generate24hForecast(scenario));
+      // Fallback: Local client-side mock data computation scaled by campus
+      setTelemetry(getTelemetryForHour(scenario, hour, campus));
+      setForecast(generate24hForecast(scenario, campus));
       setLastUpdated(new Date());
     },
     []
   );
 
-  // Sync state whenever scenario or hour changes
+  // Sync state whenever scenario, hour, or selected campus changes
   useEffect(() => {
-    refreshData(currentScenario, currentHour);
-  }, [currentScenario, currentHour, refreshData]);
+    refreshData(currentScenario, currentHour, selectedCampus);
+  }, [currentScenario, currentHour, selectedCampus, refreshData]);
 
   const setScenario = (newScenario: ScenarioPreset) => {
     setScenarioState(newScenario);
@@ -82,7 +82,7 @@ export function useMicrogridData() {
       })
     );
 
-    // Instant Telemetry Impact when recommendation is applied: reduce demand by 15kW, increase battery SoC slightly
+    // Instant Telemetry Impact when recommendation is applied
     setTelemetry((prev) => ({
       ...prev,
       demand_kw: Math.max(80, prev.demand_kw - 12),
