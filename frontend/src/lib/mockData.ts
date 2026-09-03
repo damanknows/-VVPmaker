@@ -2,6 +2,22 @@ import { Campus, CurrentTelemetry, ForecastItem, Recommendation, ScenarioPreset 
 
 export const RAJASTHAN_CAMPUSES: Campus[] = [
   {
+    id: "mnit-jaipur",
+    name: "MNIT Jaipur - Main Campus",
+    city: "Jaipur",
+    capacity_kw: 600,
+    solar_installed_kw: 400,
+    battery_capacity_kwh: 750,
+  },
+  {
+    id: "gec-ajmer",
+    name: "Govt. Engineering College Ajmer",
+    city: "Ajmer",
+    capacity_kw: 380,
+    solar_installed_kw: 240,
+    battery_capacity_kwh: 450,
+  },
+  {
     id: "gec-bikaner",
     name: "GEC Bikaner - Main Campus",
     city: "Bikaner",
