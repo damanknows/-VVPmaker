@@ -8,8 +8,11 @@ import { LiveEventStream } from "@/components/LiveEventStream";
 import { RecommendationsPanel } from "@/components/RecommendationsPanel";
 import { TelemetryBar } from "@/components/TelemetryBar";
 import { useMicrogridData } from "@/hooks/useMicrogridData";
+import { useState } from "react";
 
 export default function DashboardPage() {
+  const [activeTab, setActiveTab] = useState<string>("sld");
+
   const {
     currentScenario,
     setScenario,
@@ -28,11 +31,13 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-100 antialiased font-sans selection:bg-slate-800 selection:text-white">
       <div className="relative z-10 flex min-h-screen flex-col">
-        {/* Header with Dynamic Campus Breadcrumb */}
+        {/* Header with Dynamic Campus Breadcrumb & Sub-Nav Tab Navigation */}
         <Header
           isLiveBackend={isLiveBackend}
           scenario={currentScenario}
           selectedCampus={selectedCampus}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
 
         {/* Main Dashboard Canvas */}
@@ -48,12 +53,24 @@ export default function DashboardPage() {
           />
 
           {/* Hero Visual Component: SCADA Single-Line Diagram Energy Flow */}
-          <EnergyFlowHero telemetry={telemetry} />
+          <div
+            id="sld-section"
+            className={`transition-all duration-300 ${
+              activeTab === "sld" ? "ring-2 ring-amber-500/50" : ""
+            }`}
+          >
+            <EnergyFlowHero telemetry={telemetry} />
+          </div>
 
           {/* Middle Section: 24h Forecast Chart & Battery Gauge */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
             {/* 24-Hour Forecast Overlay Chart (2 Columns) */}
-            <div className="lg:col-span-2">
+            <div
+              id="forecast-section"
+              className={`lg:col-span-2 transition-all duration-300 ${
+                activeTab === "forecast" ? "ring-2 ring-amber-500/50" : ""
+              }`}
+            >
               <ForecastChart
                 forecast={forecast}
                 currentHour={currentHour}
@@ -62,7 +79,12 @@ export default function DashboardPage() {
             </div>
 
             {/* Battery BESS SoC Radial Meter (1 Column) */}
-            <div className="lg:col-span-1">
+            <div
+              id="bess-section"
+              className={`lg:col-span-1 transition-all duration-300 ${
+                activeTab === "bess" ? "ring-2 ring-amber-500/50" : ""
+              }`}
+            >
               <BatteryGauge
                 soc={telemetry.battery_soc}
                 powerKw={telemetry.battery_power_kw}
@@ -74,7 +96,12 @@ export default function DashboardPage() {
           {/* Bottom Section: Actionable Facility Staff Recommendations & Realtime Event Stream */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Actionable Facility Staff Recommendations (2 Columns) */}
-            <div className="lg:col-span-2">
+            <div
+              id="tariff-section"
+              className={`lg:col-span-2 transition-all duration-300 ${
+                activeTab === "tariff" ? "ring-2 ring-amber-500/50" : ""
+              }`}
+            >
               <RecommendationsPanel
                 recommendations={recommendations}
                 onApply={applyRecommendation}

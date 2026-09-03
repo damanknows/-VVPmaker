@@ -1,7 +1,7 @@
 "use client";
 
 import { Campus } from "@/types/telemetry";
-import { ChevronRight, Cpu, ShieldCheck, UserCheck, Zap } from "lucide-react";
+import { ChevronRight, Cpu, UserCheck, Zap } from "lucide-react";
 import { useState } from "react";
 import { ArchitectureModal } from "./ArchitectureModal";
 
@@ -9,15 +9,30 @@ interface HeaderProps {
   isLiveBackend: boolean;
   scenario: string;
   selectedCampus?: Campus;
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
 }
 
-export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps) {
+export function Header({
+  isLiveBackend,
+  scenario,
+  selectedCampus,
+  activeTab = "sld",
+  onTabChange,
+}: HeaderProps) {
   const [isArchOpen, setIsArchOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("sld");
 
   const campusName = selectedCampus
     ? selectedCampus.name.split(" - ")[0]
     : "GEC Bikaner";
+
+  const handleTabClick = (tabId: string, elementId: string) => {
+    if (onTabChange) onTabChange(tabId);
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
 
   return (
     <>
@@ -75,7 +90,7 @@ export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps)
             {/* Architecture Pitch Modal Button */}
             <button
               onClick={() => setIsArchOpen(true)}
-              className="flex items-center gap-1.5 border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs font-mono text-slate-200 hover:bg-slate-700 transition-none"
+              className="flex items-center gap-1.5 border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs font-mono text-slate-200 hover:bg-slate-700 transition-none cursor-pointer"
             >
               <Cpu className="h-3.5 w-3.5 text-slate-400" />
               <span>4-Tier Architecture</span>
@@ -87,8 +102,8 @@ export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps)
         <div className="border-t border-slate-800 bg-slate-950 px-4 sm:px-6">
           <div className="mx-auto flex max-w-7xl items-center gap-1 text-xs font-mono py-1">
             <button
-              onClick={() => setActiveTab("sld")}
-              className={`px-3 py-1 border-b-2 font-medium transition-none ${
+              onClick={() => handleTabClick("sld", "sld-section")}
+              className={`px-3 py-1 border-b-2 font-medium transition-none cursor-pointer ${
                 activeTab === "sld"
                   ? "border-amber-500 text-amber-500 bg-slate-900"
                   : "border-transparent text-slate-400 hover:text-slate-200"
@@ -98,8 +113,8 @@ export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps)
             </button>
 
             <button
-              onClick={() => setActiveTab("forecast")}
-              className={`px-3 py-1 border-b-2 font-medium transition-none ${
+              onClick={() => handleTabClick("forecast", "forecast-section")}
+              className={`px-3 py-1 border-b-2 font-medium transition-none cursor-pointer ${
                 activeTab === "forecast"
                   ? "border-amber-500 text-amber-500 bg-slate-900"
                   : "border-transparent text-slate-400 hover:text-slate-200"
@@ -109,8 +124,8 @@ export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps)
             </button>
 
             <button
-              onClick={() => setActiveTab("bess")}
-              className={`px-3 py-1 border-b-2 font-medium transition-none ${
+              onClick={() => handleTabClick("bess", "bess-section")}
+              className={`px-3 py-1 border-b-2 font-medium transition-none cursor-pointer ${
                 activeTab === "bess"
                   ? "border-amber-500 text-amber-500 bg-slate-900"
                   : "border-transparent text-slate-400 hover:text-slate-200"
@@ -120,8 +135,8 @@ export function Header({ isLiveBackend, scenario, selectedCampus }: HeaderProps)
             </button>
 
             <button
-              onClick={() => setActiveTab("tariff")}
-              className={`px-3 py-1 border-b-2 font-medium transition-none ${
+              onClick={() => handleTabClick("tariff", "tariff-section")}
+              className={`px-3 py-1 border-b-2 font-medium transition-none cursor-pointer ${
                 activeTab === "tariff"
                   ? "border-amber-500 text-amber-500 bg-slate-900"
                   : "border-transparent text-slate-400 hover:text-slate-200"
