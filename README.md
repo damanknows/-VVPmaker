@@ -1,4 +1,4 @@
-# VVP-Maker • SVH26004 Eco-Hackathon 🌍⚡
+# VVP-Maker • SVH26004 Eco-Hackathon 🌍
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Frontend](https://img.shields.io/badge/frontend-Next.js%2015-black)
